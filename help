@@ -1,0 +1,64 @@
+fdrman
+version:0.0.2 
+author:sunhao
+usage:
+step 1:prepare the input files
+    fdrman intendance YOURS_INPUT
+    the your file Format:
+       Sample_Tumor	Sample_Normal	Chr	Start	Ref	Alt	T_depth	T_ratio	N_depth	N_ratio
+    [delimit :TAB]
+this step will generate four files:
+    Tumor_site_info_file:	Tumor_only_list
+    Paired_info_for_MapQ_diff:	TN_paired_list
+    Paired_info_for_SNVCluster:	SNVCpaired_list
+    Pass_ratio_filter:	true_ratio_list
+step 2:
+ get help:
+    fdrman -h/--help :	to show this page;
+ single function:
+    fdrman [Options1] [Tumor_only_list/TN_paired_list/SNVCpaired_list] [the_path_to_bamfile/the_path_to_STR_DB] thread_num [check/force/merge]
+ multifunction:
+    fdrman [Options2] Tumor_only_list TN_paired_list SNVCpaired_list the_path_to_bamfile 
+ filter:
+    fdrman [Options3] the_final_result_path filter_parameter
+ statis:
+    fdrman [Options4] paralist true_ratio_list
+*******
+check: this option will check whether all site's samfile existed or not;it would produce the lack ones;BUT this option take 4~5 times worktime;
+force: this option will not check ;BUT produce all samfile instead;
+merge: this option will skip the step that may  check and produce samfile;Goto the next step directly;
+*******
+.Options1:
+    strandbias         Use the Tumor_only_list as input;just give three outcomes:SBscore,Forward mutant percent,Reverse ones;[SB]
+.
+    paired_check       Use the Tumor_only_list as Input;this will return the number of site-covered reads in paired in both strands; 
+.
+    disend             Use the Tumor_only_list as Input;This will give you the medium distance of the mutant to the nearest read's ending(MID) and the Medium Absolute Difference(MAD);
+.
+    mutq               Use the Tumor_only_list as Input;This will give you the medium  of the mutant's Base Quality and the Medium Absolute Difference;
+.
+    mapq/mapn          Use the Tumor_only_list/TN_paired_list as Input;This will give you the medium MAPQ of the reads covering the mutant and the Medium Absolute Difference;    
+.
+    mutn               Use the Tumor_only_list as Input;This will give you the medium other mutant number on the reads covering the mutant and the Medium Absolute Difference; 
+.
+   SNVCluster50        Use the SNVCpaired_list as Input;The largest number of variant positions within any 50 and 100 base pair window surrounding;It alse offer the all reads on  100bp region and the align file in full region for you quick check the result;[SNVC]
+.
+    extract_sam        Use the Tumor_only_list as Input;It use samtools extract all reads had the mutant site to a special SAM file,defult threads is 8;
+.
+    str	               Use the Tumor_only_list as Input;the path to search is change to the_path_to_STR_DB(this path is to a very file NOT just a path);
+.Options2
+    merge              Use above format; It will run all single step ;Finally,it will give the total result:merge_all.xls and site_judge_T/F_file;
+.Options3
+.
+    filter             Use the merge_all_result header factors as input args;it will tell you the site more like true mutant or not;
+.
+ **mapd                The difference in the median mapping quality of variant reads (in the tumor) and reference reads (in the normal) ;this step don't produce any file; 
+.Options4
+.
+   statis                statistics data of LT/TT and LT/(LT+LF);will give you all site True or False;
+filter format:         just as merge_all.xls header;
+defult filter parameter:   parasdic/NC_ori(according to the paper below)
+#########################################################################
+Reference Article:
+     A comprehensive assessment of somatic mutation detection in cancer using whole-genome sequencing; DOI: 10.1038/ncomms10001;9 Dec 2015;Nature Communications;Tyler S. Alioto*, Ivo Buchhalter*,et al;
+

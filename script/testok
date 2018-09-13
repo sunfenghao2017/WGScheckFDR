@@ -1,0 +1,5 @@
+PATTERN:
+	model:	fix three model
+	NC:	nature paper
+	COMP:	 compare two result
+perl hand.pl inputfile filerfile model filterratio

@@ -1,0 +1,9 @@
+1.INSTALL
+  run cmdline:
+    source ./makefile.sh
+2.Under the parasdic ,NC_ori refers to the Nature Communication paper;
+3.All function support multi-thread;
+4.The very note :you should better to export $FDRPATH into your BASHRC file;
+5.HELP
+  fdrman -h
+  fdrman --help
